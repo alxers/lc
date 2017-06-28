@@ -16,5 +16,15 @@ function twoSum(nums, target) {
         }
     }
 
-	return doMagic(nums);
+    return doMagic(nums);
+}
+
+function twoSum(nums, target) {
+    for(var i = 0; i < nums.length; i++) {
+        for(var j = 1; j < nums.length; j++) {
+            if (nums[i] + nums[j] === target) {
+                return [i, nums.lastIndexOf(nums[j])];
+            }
+        }
+    }
 }
