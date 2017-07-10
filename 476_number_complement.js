@@ -8,7 +8,7 @@
 
 var findComplement = function(num) {
     let biNum = num.toString(2);
-	let flippedNum = (~ num) >>> 0;
+    let flippedNum = (~ num) >>> 0;
     return parseInt(flippedNum.toString(2).slice(- biNum.length), 2);
     
 };
