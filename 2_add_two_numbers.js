@@ -1,28 +1,35 @@
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
 var addTwoNumbers = function(l1, l2) {
-    let sum = l1.val + l2.val
-    let nodeVal = sum.split('') // get last item - it's a sum
-    let rem = sum.split('') // get everything but last - it's a rem
-    // let newNode = new ListNode(l1.val + l2.val);
-    console.log('outside ', l1.val + l2.val)
-    while(l1.next) {
+    let newNode;
+    let sum;
+    let rem = 0;
+    let prevNode = new ListNode();
+    let currentNode;
+    let firstNode = prevNode;
+    
+    while(l1 || l2 || rem != 0) {
+        let nodeVal;
+        if (!l1) {
+            l1 = new ListNode(0);
+        }
+        if (!l2) {
+            l2 = new ListNode(0);
+        }
+        sum = (l1.val + l2.val + rem).toString().split('');
+        if (sum.length > 1) {
+            nodeVal = +sum[1];
+            rem = +sum[0];   
+        } else {
+            nodeVal = +sum[0];
+            rem = 0;
+        }
+
+        currentNode = new ListNode(nodeVal);
+        prevNode.next = currentNode;
+ 
         l1 = l1.next;
         l2 = l2.next;
-
-        // sum.next = new ListNode();
-        // console.log('inside while ', +(l1.val + l2.val).toString().split('').pop());
+        prevNode = currentNode;
     }
     
-    return sum;
+    return firstNode.next;
 };
