@@ -1,11 +1,22 @@
-/**
- * @param {number[]} nums
- * @return {void} Do not return anything, modify nums in-place instead.
- */
 var moveZeroes = function(nums) {
-    nums.map(function(el, index) {
-        if (el === 0) {
-            nums.push(nums.splice(index, 1)[0]);   
+    // let zeroes = 0;
+    // nums.filter(function(el) {
+    //     if (el === 0) {
+    //         zeroes++;
+    //     }
+    //     return el !== 0
+    // }).concat(Array(zeroes).fill(0));
+    
+    let zeroes = 0;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === 0) {
+            zeroes++;
+            nums.splice(i, 1);
+            i--;
         }
-    });
+    }
+    
+    for (let j = 0; j < zeroes; j++) {
+        nums.push(0);
+    }
 };
