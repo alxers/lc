@@ -1,11 +1,19 @@
-var maxDepth = function(root, count=0) {
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
     
     if (!root) {
-        return [];
+        return 0;
     }
     
-    if (this.left) {
-        maxDepth(this.left, count++)
-    }
-    console.log(count)
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 };
