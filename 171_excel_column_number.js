@@ -3,6 +3,6 @@
  * @return {number}
  */
 var titleToNumber = function(s) {
-    // "A".charCodeAt(0)
+    //  "A".charCodeAt(0)
     // 65
 };
