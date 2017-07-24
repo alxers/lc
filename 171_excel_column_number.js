@@ -3,6 +3,8 @@
  * @return {number}
  */
 var titleToNumber = function(s) {
-    // "A".charCodeAt(0)
-    // 65
+    return s.split('').reduce(function(acc, el, index) {
+        let pos = s.length - index;
+        return acc += Math.pow(26, (pos - 1)) * (el.charCodeAt(0) - 64);
+    }, 0)
 };
