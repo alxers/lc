@@ -1,8 +1,24 @@
-/**
- * @param {number[]} digits
- * @return {number[]}
- */
 var plusOne = function(digits) {
-    let sum = parseInt(digits.join(''), 10) + 1;
-    return sum.toString().split('').map((el)=> parseInt(el, 10));
+    let nums = digits;
+    let res = []
+    let rec = function(nums) {
+        let last = nums[nums.length - 1];
+        if (last <= 9) {
+            return nums
+        }
+        if (!last) {
+            let first = digits[0] + 1;
+            // debugger
+            if (first > 9) {
+                return res.unshift(1);
+            } else {
+                return res.unshift(digits[0] + 1);   
+            }
+        } else {
+            res.unshift(0);
+            return rec(nums.slice(0, -1));
+        }
+    }
+    rec(nums);
+    return res;
 };
