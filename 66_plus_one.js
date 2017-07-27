@@ -1,24 +1,23 @@
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
 var plusOne = function(digits) {
-    let nums = digits;
-    let res = []
-    let rec = function(nums) {
-        let last = nums[nums.length - 1];
-        if (last <= 9) {
-            return nums
-        }
-        if (!last) {
-            let first = digits[0] + 1;
-            // debugger
-            if (first > 9) {
-                return res.unshift(1);
-            } else {
-                return res.unshift(digits[0] + 1);   
+    let result = [];
+    let rec = function(digits, index) {
+        let last = digits.slice(index)[0];
+        if (last + 1 > 9) {
+            digits.splice(index, 1, 0);
+            if (index - 1 < 0) {
+                index++
+                digits.unshift(0);
             }
+            return rec(digits, index - 1);
         } else {
-            res.unshift(0);
-            return rec(nums.slice(0, -1));
+            return digits.splice(index, 1, last + 1);
         }
     }
-    rec(nums);
-    return res;
+    
+    rec(digits, digits.length - 1);
+    return digits
 };
