@@ -1,15 +1,14 @@
 var isBalanced = function(root) {
-    let first, second;
+    var first, second;
     function rec(root) {
         if (!root) {
-            return 0;
+            return ['', ''];
         }
 
-        let left = 1 + rec(root.left)
-        let right = 1 + rec(root.right);
+        var left = 1 + rec(root.left)
+        var right = 1 + rec(root.right);
         return [left, right];
     }
-    
     [first, second] = rec(root);
-    return Math.abs(first.split(',').length - second.split(',').lentgh) > 1;
+    return !(Math.abs(first.split(',').length/2 - second.split(',').length/2) > 1);
 };
