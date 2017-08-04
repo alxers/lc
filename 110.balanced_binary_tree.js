@@ -1,14 +1,46 @@
-var isBalanced = function(root) {
-    var first, second;
-    function rec(root) {
-        if (!root) {
-            return ['', ''];
-        }
+function TreeNode(val) {
+    this.val = val;
+    this.left = this.right = null;
+}
 
-        var left = 1 + rec(root.left)
-        var right = 1 + rec(root.right);
-        return [left, right];
+let n = new TreeNode(1);
+n.left = new TreeNode(2);
+n.left.left = new TreeNode(3);
+n.left.left.left = new TreeNode(4);
+
+let b = new TreeNode(1);
+b.left = new TreeNode(2);
+b.right = new TreeNode(3);
+ 
+
+function maxDepth(root) {
+    
+    if (!root) {
+        return 0;
     }
-    [first, second] = rec(root);
-    return !(Math.abs(first.split(',').length/2 - second.split(',').length/2) > 1);
+    
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+};
+
+function balanced(root) {
+    let leftDepth = 0;
+    let rightDepth = 0;
+    if (!root) {
+        return true;
+    }
+    if (root.left) {
+        leftDepth = maxDepth(root.left);
+    }
+    if (root.right) {
+        rightDepth = maxDepth(root.right);
+    }
+    return Math.abs(leftDepth - rightDepth) <= 1;
+}
+
+var isBalanced = function(root) {
+    if (!root) {
+        return true;
+    }
+    let b = balanced(root);
+    return isBalanced(root.left) && isBalanced(root.right) && b;
 };
