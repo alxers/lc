@@ -1,18 +1,16 @@
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function(prices) {
-    let maxDiff = 0;
-    let num = 0;
-    for(let i = prices.length; i >= 0; i--) {
-        for(let j = i - 1; j >= 0; j--) {
-            num = prices[i] - prices[j];
-            if (num > maxDiff) {
-                maxDiff = num;
-            }
+    let sortedPrices = prices.slice().sort(function(a, b) {
+       return a-b; 
+    });
+    let minEl = sortedPrices[0];
+    let maxEl;
+    let minInd = prices.indexOf(minEl); 
+    for (let i = sortedPrices.length-1; i > 0; i--) {
+        let diff = sortedPrices[i] - minEl
+        let maxInd = prices.lastIndexOf(sortedPrices[i])
+        if (maxInd > minInd) {
+            return diff;
         }
     }
-    
-    return maxDiff;
+    return 0;
 };
