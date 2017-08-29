@@ -4,24 +4,37 @@
  * @return {character[][]}
  */
 var updateBoard = function(board, click) {
-    const ROW = 0;
-    const COL = 1;
+    const ROW = click[0];
+    const COL = click[1];
+    let clickedItem = board[ROW][COL];
 
-    if (board[click[ROW]][click[COL]] === 'M') {
-        board[click[ROW]][click[COL]] = 'X';
+    var updateAdjacent = function(board, item) {
+        // update the whole board recursively
+    }
+
+    var revealWithAdjacent = function(board) {
+        clickedItem = 'B';
+        updateAdjacent(board, 'B');
+    }
+
+
+    if (clickedItem === 'M') {
+        clickedItem = 'X';
         return board;
     }
 
-    if (board[click[ROW]][click[COL]] === 'E') {
+    if (clickedItem === 'E') {
         if (noAdjacentMines()) {
             revealWithAdjacent();
         } else {
             revealWithAdjacentMines();
         }
     }
+
     
     return board;
 };
+
 
 
 //OK If an empty square ('E') with no adjacent mines is revealed, then change it to revealed blank ('B') and all of its adjacent unrevealed squares should be revealed recursively.
