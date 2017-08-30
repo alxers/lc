@@ -4,17 +4,48 @@
  * @return {character[][]}
  */
 var updateBoard = function(board, click) {
-    const ROW = click[0];
-    const COL = click[1];
+    let ROW = click[0];
+    let COL = click[1];
     let clickedItem = board[ROW][COL];
 
-    var updateAdjacent = function(board, item) {
-        // update the whole board recursively
+    var adjacentItems = function(items) {
+        return items.map((item) => {
+            if (item && (item !== 'M' || item !== 'B')) {
+                return item;
+            }
+        })
     }
 
-    var revealWithAdjacent = function(board) {
-        clickedItem = 'B';
-        updateAdjacent(board, 'B');
+    var updateAdjacent = function(board, item) {
+        let itemsToCheck = [];
+
+        let upperRow = board[ROW - 1];
+        let bottomRow = board[ROW + 1];
+
+        let left = board[ROW][COL - 1];
+        let right = board[ROW][COL + 1];
+
+        let upperLeft = false;
+        let upper = false;
+        let upperRight = false;
+
+        let bottomLeft = false;
+        let bottom = false;
+        let bottomRight = false;
+
+        if (upperRow) {
+            upperLeft = upperRow[COL - 1];
+            upper = upperRow[COL];
+            upperRight = upperRow[COL + 1];
+        }
+
+        if (bottomRow) {
+            bottomLeft = upperRow[COL - 1];
+            bottom = upperRow[COL];
+            bottomRight = upperRow[COL + 1];
+        }
+
+        items = adjacentItems([upperLeft, upper, upperRight, left, right, bottomLeft, bottom, bottomRight]);
     }
 
 
