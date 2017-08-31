@@ -3,51 +3,56 @@
  * @param {number[]} click
  * @return {character[][]}
  */
-var updateBoard = function(board, click) {
-    let ROW = click[0];
-    let COL = click[1];
-    let clickedItem = board[ROW][COL];
+function updateAndReturnAdjacent(items) {
+    return items.map((item, index) => {
+        if (item && (item !== 'M' || item !== 'B')) {
+            item = 'B';
+            return index;
+        }
+    })
+}
 
-    var adjacentItems = function(items) {
-        return items.map((item) => {
-            if (item && (item !== 'M' || item !== 'B')) {
-                return item;
-            }
-        })
+function revealItems(board, click) {
+    let row = click[0];
+    let col = click[1];
+
+    let upperRow = board[row - 1];
+    let bottomRow = board[row + 1];
+
+    let left = board[row][col - 1];
+    let right = board[row][col + 1];
+
+    let upperLeft = false;
+    let upper = false;
+    let upperRight = false;
+
+    let bottomLeft = false;
+    let bottom = false;
+    let bottomRight = false;
+
+    if (upperRow) {
+        upperLeft = upperRow[col - 1];
+        upper = upperRow[col];
+        upperRight = upperRow[col + 1];
     }
 
-    var updateAdjacent = function(board, item) {
-        let itemsToCheck = [];
-
-        let upperRow = board[ROW - 1];
-        let bottomRow = board[ROW + 1];
-
-        let left = board[ROW][COL - 1];
-        let right = board[ROW][COL + 1];
-
-        let upperLeft = false;
-        let upper = false;
-        let upperRight = false;
-
-        let bottomLeft = false;
-        let bottom = false;
-        let bottomRight = false;
-
-        if (upperRow) {
-            upperLeft = upperRow[COL - 1];
-            upper = upperRow[COL];
-            upperRight = upperRow[COL + 1];
-        }
-
-        if (bottomRow) {
-            bottomLeft = upperRow[COL - 1];
-            bottom = upperRow[COL];
-            bottomRight = upperRow[COL + 1];
-        }
-
-        items = adjacentItems([upperLeft, upper, upperRight, left, right, bottomLeft, bottom, bottomRight]);
+    if (bottomRow) {
+        bottomLeft = upperRow[col - 1];
+        bottom = upperRow[col];
+        bottomRight = upperRow[col + 1];
     }
 
+    items = updateAndReturnAdjacent([upperLeft, upper, upperRight, left, right, bottomLeft, bottom, bottomRight]);
+
+    items.map(()=>{
+        // change click to the item in 'items' POSITION, recursively call revealItems
+    })
+}
+
+function updateBoard(board, click) {
+    let row = click[0];
+    let col = click[1];
+    let clickedItem = board[row][col];
 
     if (clickedItem === 'M') {
         clickedItem = 'X';
@@ -55,13 +60,8 @@ var updateBoard = function(board, click) {
     }
 
     if (clickedItem === 'E') {
-        if (noAdjacentMines()) {
-            revealWithAdjacent();
-        } else {
-            revealWithAdjacentMines();
-        }
+        revealItems(board, click);
     }
-
     
     return board;
 };
