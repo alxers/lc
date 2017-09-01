@@ -3,19 +3,34 @@
  * @param {number[]} click
  * @return {character[][]}
  */
-function updateAndReturnAdjacent(items) {
-    return items.map((item, index) => {
-        if (item && (item !== 'M' || item !== 'B')) {
-            item = 'B';
-            return index;
+
+function updateAndReturnAdjacent(items, board, currentClick) {
+    minesCount = 0
+    emptyCells = []
+    items.map((item) => {
+        // ['Cell item', 'row', 'col']
+        if (item[0] && (item[0] === 'E')) {
+            emptyCells.push([item[1], item[2]]);
+        } else if (item[0] && item[0] === 'M') {
+            minesCount += 1;
         }
     })
+    if (minesCount == 0) {
+        return emptyCells
+    } else {
+        board[currentClick[0]][currentClick[1]] = minesCount.toString();
+        return [];
+    }
 }
 
-function revealItems(board, click) {
+function revealItems(board, click, set) {
     let row = click[0];
     let col = click[1];
 
+    if (board[row][col] === 'E') {
+        board[row][col] = 'B';
+    }
+// console.table(board);
     let upperRow = board[row - 1];
     let bottomRow = board[row + 1];
 
@@ -37,15 +52,30 @@ function revealItems(board, click) {
     }
 
     if (bottomRow) {
-        bottomLeft = upperRow[col - 1];
-        bottom = upperRow[col];
-        bottomRight = upperRow[col + 1];
+        bottomLeft = bottomRow[col - 1];
+        bottom = bottomRow[col];
+        bottomRight = bottomRow[col + 1];
     }
 
-    items = updateAndReturnAdjacent([upperLeft, upper, upperRight, left, right, bottomLeft, bottom, bottomRight]);
+    items = updateAndReturnAdjacent([
+            [upperLeft, row - 1, col - 1],
+            [upper, row - 1, col],
+            [upperRight, row - 1, col + 1],
+            [left, row, col - 1],
+            [right, row, col + 1],
+            [bottomLeft, row + 1, col - 1],
+            [bottom, row + 1, col],
+            [bottomRight, row + 1, col + 1]
+        ], board, click);
 
-    items.map(()=>{
-        // change click to the item in 'items' POSITION, recursively call revealItems
+    items.map((item)=>{
+        set.add(item[0] + ',' + item[1])
+    });
+    set.forEach((item) => {
+        set.delete(item)
+        let row = +item.split(',')[0];
+        let col = +item.split(',')[1];
+        revealItems(board, [row, col], set);
     })
 }
 
@@ -55,12 +85,13 @@ function updateBoard(board, click) {
     let clickedItem = board[row][col];
 
     if (clickedItem === 'M') {
-        clickedItem = 'X';
+        board[row][col] = 'X';
         return board;
     }
 
+    let set = new Set();
     if (clickedItem === 'E') {
-        revealItems(board, click);
+        revealItems(board, click, set);
     }
     
     return board;
@@ -76,10 +107,10 @@ function updateBoard(board, click) {
 
 // Input: 
 
-// [['E', 'E', 'E', 'E', 'E'],
-//  ['E', 'E', 'M', 'E', 'E'],
-//  ['E', 'E', 'E', 'E', 'E'],
-//  ['E', 'E', 'E', 'E', 'E']]
+[['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'M', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E']]
 
 // Click : [3,0]
 
