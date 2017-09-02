@@ -4,6 +4,7 @@
  * @return {character[][]}
  */
 
+// TODO: fix runtime error
 function updateAndReturnAdjacent(items, board, currentClick) {
     minesCount = 0
     emptyCells = []
