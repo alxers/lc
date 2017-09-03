@@ -121,3 +121,4 @@ function updateBoard(board, click) {
 //  ['B', '1', 'M', '1', 'B'],
 //  ['B', '1', '1', '1', 'B'],
 //  ['B', 'B', 'B', 'B', 'B']]
+
